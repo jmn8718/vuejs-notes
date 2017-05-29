@@ -70,6 +70,10 @@ export default {
 </script>
 
 <style lang="scss">
+:root {
+  --mdc-theme-primary: #FFBB00;
+  --mdc-theme-text-primary-on-primary: #000;
+}
 html {
   margin: 0;
   padding: 0;
