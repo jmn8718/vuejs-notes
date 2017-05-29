@@ -5,21 +5,20 @@
     <div v-if="notes.length <= 10">
       <new-note @addNote="addNote"></new-note>
     </div>
-    <div id="app">
-      <note v-for="(note, index) in notes" v-bind:title="note.title" :body="note.body" :key="index"></note>
-    </div>
+    <notes-list :notes="notes" @deleteNote="deleteNote" @archiveNote="archiveNote"></notes-list>
   </div>
 </template>
 
 <script>
 import Toolbar from './components/Toolbar.vue';
 import NewNote from './components/NewNote.vue';
-import Note from './components/Note.vue';
+import NotesList from './components/NotesList.vue';
 
 export default {
   data () {
     return {
       title: 'Notes',
+      showArchivedNotes: false,
       notes: [
         {
           title: 'note 1',
@@ -44,16 +43,27 @@ export default {
       ]
     }
   },
+  computed: {
+    filteredNotes() {
+      return this.notes.filter((note) => note.archived === this.showArchivedNotes);
+    }
+  },
   components: {
     toolbar: Toolbar,
     'new-note': NewNote,
-    note: Note,
+    'notes-list': NotesList,
   },
   methods: {
     addNote(note) {
       this.notes.push(Object.assign({
         archived: false
       }, note));
+    },
+    deleteNote(index) {
+      this.notes.splice(index, 1);
+    },
+    archiveNote(index) {
+      this.notes[index].archived = !this.notes[index].archived;
     }
   }
 }
@@ -70,14 +80,8 @@ html {
 body {
   font-family: 'Roboto',arial,sans-serif;
   font-size: 15px;
-  min-width: 360px;
   background-color: #e8e8e8;
-  max-width: 100%;
-}
-
-#app {
-  display: flex;
-  flex-wrap: wrap;
-  margin-top: 8px
+  min-width: 678px;
+  width: 100%;
 }
 </style>

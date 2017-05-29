@@ -1,9 +1,14 @@
 <template>
   <div class="mdc-elevation--z2 wrapper">
     <form>
-      <input v-model="title" placeholder="Title">
-      <textarea v-model.lazy="body" rows="3" placeholder="Take a note..."></textarea>
-      <div class="buttons">
+      <input v-model="title" placeholder="Title" v-show="isTakingNote">
+      <textarea
+        v-model.lazy="body"
+        :rows="isTakingNote ? 3 : 1"
+        placeholder="Take a note..."
+        @focus="startTakingNote"
+      ></textarea>
+      <div class="buttons" v-show="isTakingNote">
         <button class="mdc-button button" @click.prevent="resetNote">RESET</button>
         <button class="mdc-button button" @click.prevent="addNote" :disabled="!isFormValid">DONE</button>
       </div>
@@ -16,16 +21,19 @@ export default {
   data () {
     return {
       title: '',
-      body: ''
+      body: '',
+      isTakingNote: false
     }
   },
   computed: {
     isFormValid() {
-      console.log('compute', this.title.length > 0 && this.body.length > 0)
       return this.title && this.body;
     }
   },
   methods: {
+    startTakingNote() {
+      this.isTakingNote = true;
+    },
     addNote() {
       this.$emit('addNote', {
         title: this.title,
@@ -36,6 +44,7 @@ export default {
     resetNote() {
       this.title = '';
       this.body = '';
+      this.isTakingNote = false;
     }
   }
 }
