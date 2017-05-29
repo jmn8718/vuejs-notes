@@ -37,5 +37,6 @@ export default {
 <style scoped lang="scss">
 .max-width {
   max-width: 1024px;
+  width: 100%;
 }
 </style>
