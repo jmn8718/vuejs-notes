@@ -1,11 +1,11 @@
 <template>
   <div class="mdc-layout-grid max-width">
-    <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-4" v-for="(note, index) in notes">
+    <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-4" v-for="note in notes">
       <note
         v-bind:note="note"
-        :key="index"
-        @deleteNote="deleteNote(index)"
-        @archiveNote="archiveNote(index)"
+        :key="note.id"
+        @deleteNote="deleteNote(note.id)"
+        @archiveNote="archiveNote(note.id)"
       ></note>
     </div>
   </div>
@@ -24,11 +24,11 @@ export default {
     note: Note,
   },
   methods: {
-    deleteNote(index) {
-      this.$emit('deleteNote', index);
+    deleteNote(id) {
+      this.$emit('deleteNote', id);
     },
-    archiveNote(index) {
-      this.$emit('archiveNote', index)
+    archiveNote(id) {
+      this.$emit('archiveNote', id)
     }
   }
 }

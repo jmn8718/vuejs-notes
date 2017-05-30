@@ -27,41 +27,15 @@ export default {
   data () {
     return {
       title: 'Notes',
-      showArchivedNotes: false,
       active: 'dashboard',
-      notes: [
-        {
-          title: 'note 1',
-          body: 'safdasdasdasdas',
-          archived: false,
-          deleted: false
-        },
-        {
-          title: 'note 2',
-          body: 'safdasdaasdasdnacln  ckab cab ckjab kasdasdas',
-          archived: true,
-          deleted: false
-        },
-        {
-          title: 'note 3',
-          body: 'safdasdasasda  adcasc ac ada cadasdas',
-          archived: false,
-          deleted: false
-        },
-        {
-          title: 'note 4',
-          body: 'dasdasdasdasdasdasd',
-          archived: false,
-          deleted: false
-        },
-      ]
+      notes: []
     }
   },
   computed: {
     filteredNotes() {
       switch (this.active) {
         case 'dashboard':
-          return this.notes.filter((note) => !note.archived);
+          return this.notes.filter((note) => !note.archived && !note.deleted);
         case 'archive':
           return this.notes.filter((note) => note.archived);
         case 'delete':
@@ -79,19 +53,39 @@ export default {
     sidebar: Sidebar,
   },
   methods: {
+    updateNotes() {
+      localStorage.setItem('notes', JSON.stringify(this.notes));
+    },
     addNote(note) {
       this.notes.push(Object.assign({
+        id: this.notes.length + 1,
         archived: false
       }, note));
+      this.updateNotes();
     },
-    deleteNote(index) {
-      this.notes.splice(index, 1);
+    deleteNote(id) {
+      const indexOfNote = this.notes.findIndex((note) => note.id === id);
+      if (indexOfNote > -1) {
+        this.notes[indexOfNote].deleted = !this.notes[indexOfNote].deleted;
+      }
+      this.updateNotes();
     },
-    archiveNote(index) {
-      this.notes[index].archived = !this.notes[index].archived;
+    archiveNote(id) {
+      const indexOfNote = this.notes.findIndex((note) => note.id === id);
+      if (indexOfNote > -1) {
+        this.notes[indexOfNote].archived = !this.notes[indexOfNote].archived;
+      }
+      this.updateNotes();
     },
+    // sidebar option active
     changeActive(active) {
       this.active = active;
+    }
+  },
+  created() {
+    const notes = localStorage.getItem('notes');
+    if (notes) {
+      this.notes = JSON.parse(notes);
     }
   }
 }

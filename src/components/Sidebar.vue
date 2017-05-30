@@ -33,7 +33,7 @@ export default {
       options: [
         {
           icon: 'dashboard',
-          text: 'All'
+          text: 'Notes'
         },
         {
           icon: 'archive',
