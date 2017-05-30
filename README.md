@@ -1,7 +1,9 @@
 # vuejs-notes
 
-Notes app with [vuejs](https://vuejs.org/) and [material-components-web](https://github.com/material-components/material-components-web)
-[Demo](https://jmn8718.github.io/vuejs-notes/)
+Notes app with [vuejs](https://vuejs.org/) and [material-components-web](https://github.com/material-components/material-components-web).
+
+Visit the [live version](https://jmn8718.github.io/vuejs-notes/).
+
 Use localstorage to persist data in browser
 
 ## Build Setup
